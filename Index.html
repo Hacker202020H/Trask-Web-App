@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trask-Tech | Professional IT Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0e27;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1428 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.25) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.2) 0%, transparent 25%),
+                radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 28%);
+            animation: bgShift 15s ease-in-out infinite;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(100,200,255,0.3)"/><circle cx="80" cy="80" r="1" fill="rgba(100,200,255,0.3)"/><circle cx="50" cy="50" r="1" fill="rgba(100,200,255,0.2)"/></svg>');
+            background-size: 200px 200px;
+            animation: bgFloat 20s linear infinite;
+        }
+
+        @keyframes bgShift {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes bgFloat {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(200px, 200px); }
+        }
+
+        /* container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* header */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 15px rgba(16, 185, 129, 0.4));
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 15px rgba(16, 185, 129, 0.4));
+            }
+            50% {
+                filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 20px rgba(16, 185, 129, 0.6));
+            }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.05));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            display: none;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a:focus-visible {
+            color: #fff;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(16, 185, 129, 0.15));
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .nav-links a:active {
+            transform: translateY(0px);  
+            opacity: 0.85;
+        }
+        
+        /* mobile menu */
+        .menu-icon {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #cbd5e1;
+        }
+        
+        @media (max-width: 700px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: 0;
+                background: rgba(15, 23, 42, 0.99);
+                padding: 20px;
+                width: 100%;
+            }
+            
+            .nav-links.show {
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 12px 0;
+                border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            }
+            
+            .menu-icon {
+                display: block;
+            }
+        }
+
+        /* sections */
+        section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+        
+        .section-sub {
+            text-align: center;
+            color: #cbd5e1;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        /* home / hero */
+        .hero {
+            background: transparent;
+            text-align: center;
+            padding: 90px 0;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #3b82f6, #10b981, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #3b82f6;
+            color: #3b82f6;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* services grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .service-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.05));
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.6);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.1));
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+        
+        .service-card h3 {
+            margin: 15px 0 10px;
+            color: #3b82f6;
+            font-size: 1.5rem;
+        }
+        
+        .service-card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* contact form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.05));
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact-form label {
+            display: block;
+            color: #cbd5e1;
+            margin: 15px 0 8px;
+            font-weight: 500;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        button {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.6);
+        }
+        
+        footer {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            border-top: 1px solid rgba(59, 130, 246, 0.3);
+            backdrop-filter: blur(10px);
+            color: #cbd5e1;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: #3b82f6;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin: 8px 0;
+        }
+
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #3b82f6;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .footer-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 50%;
+            color: #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-divider {
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            padding-top: 30px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-copyright {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .footer-bottom {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+        
+        /* WhatsApp float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #25D366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <a href="index.html" class="logo">
+                    <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Outer circle -->
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
+                        <!-- Inner tech elements -->
+                        <g stroke="url(#logoGradient)" stroke-width="1.5" fill="none" opacity="0.9">
+                            <!-- Top circuit line -->
+                            <path d="M 30 35 L 40 35 L 40 45 L 60 45 L 60 35 L 70 35"/>
+                            <!-- Middle diagonal lines -->
+                            <path d="M 25 50 L 75 50"/>
+                            <!-- Bottom circuit line -->
+                            <path d="M 30 65 L 40 65 L 40 55 L 60 55 L 60 65 L 70 65"/>
+                        </g>
+                        <!-- Connection nodes -->
+                        <g fill="url(#logoGradient)" opacity="0.8">
+                            <circle cx="30" cy="35" r="2.5"/>
+                            <circle cx="70" cy="35" r="2.5"/>
+                            <circle cx="25" cy="50" r="2.5"/>
+                            <circle cx="75" cy="50" r="2.5"/>
+                            <circle cx="30" cy="65" r="2.5"/>
+                            <circle cx="70" cy="65" r="2.5"/>
+                        </g>
+                        <!-- Center tech symbol -->
+                        <g opacity="0.6" stroke="url(#logoGradient)" stroke-width="1" fill="none">
+                            <circle cx="50" cy="50" r="8"/>
+                            <path d="M 50 42 L 50 58"/>
+                            <path d="M 42 50 L 58 50"/>
+                        </g>
+                    </svg>
+                    Trask-Tech
+                </a>
+                <div class="menu-icon" onclick="toggleMenu()">☰</div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="it-info.html">IT Info</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Professional IT Solutions</h1>
+                <p>Expert software development, web design, and IT services for businesses of all sizes. Transform your digital presence with cutting-edge technology.</p>
+                <a href="contact.html" class="btn btn-primary">Get Started</a>
+                <a href="services.html" class="btn btn-outline">Explore Services</a>
+            </div>
+        </section>
+
+        <section style="background: rgba(59, 130, 246, 0.02); border-radius: 30px; margin: 60px 0; padding: 60px 0;">
+            <div class="container">
+                <h2 class="section-title">What We Offer</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>💻 Web Development</h3>
+                        <p>Modern, responsive websites built with latest technologies. SEO-optimized and mobile-first design.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>🔐 Cybersecurity</h3>
+                        <p>Protect your business with enterprise-grade security solutions and IT infrastructure management.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>☁️ Cloud Solutions</h3>
+                        <p>Scalable cloud infrastructure, data migration, and hosted services for optimal performance.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>📊 Data Analytics</h3>
+                        <p>Turn raw data into actionable insights with advanced analytics and business intelligence tools.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>🤖 AI & Automation</h3>
+                        <p>Leverage artificial intelligence to automate processes and gain competitive advantage.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>🛠️ IT Support</h3>
+                        <p>24/7 technical support, system maintenance, and troubleshooting for your business.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>🛰️ Trask-Tech</h4>
+                    <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6;">Professional IT solutions and software development for businesses worldwide. Transforming ideas into innovative digital solutions.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/" title="GitHub" target="_blank" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.262.82-.582 0-.287-.01-1.044-.015-2.05-3.338.726-4.042-1.61-4.042-1.61-.546-1.38-1.332-1.748-1.332-1.748-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.835 2.809 1.305 3.495.997.108-.775.42-1.305.762-1.605-2.665-.303-5.467-1.332-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.525.117-3.176 0 0 1.008-.323 3.3 1.23a11.52 11.52 0 0 1 3.003-.404c1.02.005 2.045.138 3.003.404 2.29-1.553 3.295-1.23 3.295-1.23.655 1.65.244 2.873.12 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.815 1.102.815 2.222 0 1.605-.015 2.896-.015 3.286 0 .322.215.698.825.58C20.565 21.795 24 17.298 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                        </a>
+                        <a href="https://t.me/" title="Telegram" target="_blank" aria-label="Telegram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12 2C6.486 2 2 6.486 2 12c0 5.513 4.486 10 10 10s10-4.487 10-10C22 6.486 17.514 2 12 2zm4.36 7.37l-1.545 7.313c-.117.5-.43.62-.872.386l-2.412-1.78-1.163 1.12c-.128.128-.235.235-.48.235l.17-2.41 4.38-3.966c.19-.17-.04-.266-.295-.096l-5.413 3.405-2.33-.73c-.505-.158-.515-.505.105-.75l8.13-3.14c.375-.14.705.09.585.65z"/></svg>
+                        </a>
+                        <a href="https://instagram.com/" title="Instagram" target="_blank" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.056 1.97.248 2.43.415a4.92 4.92 0 0 1 1.77 1.146 4.92 4.92 0 0 1 1.146 1.77c.167.46.359 1.26.415 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.056 1.17-.248 1.97-.415 2.43a4.902 4.902 0 0 1-1.146 1.77 4.904 4.904 0 0 1-1.77 1.146c-.46.167-1.26.359-2.43.415-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.056-1.97-.248-2.43-.415a4.92 4.92 0 0 1-1.77-1.146 4.922 4.922 0 0 1-1.146-1.77c-.167-.46-.359-1.26-.415-2.43C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.056-1.17.248-1.97.415-2.43a4.923 4.923 0 0 1 1.146-1.77A4.923 4.923 0 0 1 5.564 2.58c.46-.167 1.26-.359 2.43-.415C8.416 2.175 8.796 2.163 12 2.163zm0 1.838c-3.17 0-3.548.012-4.797.069-1.035.047-1.597.218-1.97.365a3.08 3.08 0 0 0-1.12.73 3.08 3.08 0 0 0-.73 1.12c-.147.373-.318.935-.365 1.97-.057 1.249-.069 1.627-.069 4.797s.012 3.548.069 4.797c.047 1.035.218 1.597.365 1.97.17.43.4.78.73 1.12.34.33.69.56 1.12.73.373.147.935.318 1.97.365 1.249.057 1.627.069 4.797.069s3.548-.012 4.797-.069c1.035-.047 1.597-.218 1.97-.365a3.08 3.08 0 0 0 1.12-.73 3.08 3.08 0 0 0 .73-1.12c.147-.373.318-.935.365-1.97.057-1.249.069-1.627.069-4.797s-.012-3.548-.069-4.797c-.047-1.035-.218-1.597-.365-1.97a3.089 3.089 0 0 0-.73-1.12 3.089 3.089 0 0 0-1.12-.73c-.373-.147-.935-.318-1.97-.365-1.249-.057-1.627-.069-4.797-.069zm0 4.838a5.0 5.0 0 1 1 0 10.001 5.0 5.0 0 0 1 0-10.001zm0 1.838a3.162 3.162 0 1 0 0 6.324 3.162 3.162 0 0 0 0-6.324zm6.406-3.162a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+                        </a>
+                        <a href="https://wa.me/256703380494" title="WhatsApp" target="_blank" aria-label="WhatsApp">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.672.15-.198.297-.768.967-.942 1.164-.173.198-.347.223-.644.075 -.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.173.198-.297.298-.496.099-.198.05-.372-.025-.52-.075-.149-.672-1.61-.921-2.207-.242-.579-.487-.5-.672-.51l-.573-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.102 3.2 5.077 4.487.709.306 1.262.489 1.693.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.412.248-.694.248-1.289.173-1.412-.074-.123-.272-.198-.57-.347z"/><path d="M12.004 2.083c-5.477 0-9.917 4.444-9.917 9.917 0 1.748.457 3.453 1.327 4.957l-1.397 5.102 5.233-1.374c1.459.798 3.115 1.219 4.754 1.219 5.478 0 9.918-4.444 9.918-9.917S17.482 2.083 12.004 2.083zm0 17.083c-1.447 0-2.87-.388-4.106-1.123l-.293-.174-3.106.814.828-3.023-.19-.304A7.758 7.758 0 0 1 4.083 12c0-4.3 3.516-7.817 7.92-7.817 4.402 0 7.919 3.517 7.919 7.817 0 4.301-3.517 7.816-7.919 7.816z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="it-info.html">IT Information</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services.html">Web Development</a></li>
+                        <li><a href="services.html">Cybersecurity</a></li>
+                        <li><a href="services.html">Cloud Solutions</a></li>
+                        <li><a href="services.html">AI & Automation</a></li>
+                        <li><a href="services.html">IT Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p style="font-size: 0.9rem; color: #cbd5e1;">📧 <a href="mailto:sdarius032@gmail.com">sdarius032@gmail.com</a></p>
+                    <p style="font-size: 0.9rem; color: #cbd5e1; margin-top: 8px;">📱 <a href="https://wa.me/256703380494">+256 703 380 494</a></p>
+                    <p style="font-size: 0.9rem; color: #cbd5e1; margin-top: 8px;">📍 Kampala, Uganda</p>
+                </div>
+            </div>
+            <div class="footer-divider">
+                <div class="footer-bottom">
+                    <p class="footer-copyright">&copy; 2025 Trask-Tech. All rights reserved.</p>
+                    <p class="footer-copyright">Building tomorrow's technology today</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/256703380494?text=Hello%20Trask-Tech%2C%20I%20need%20IT%20solutions" class="whatsapp-float" target="_blank">💬 WhatsApp</a>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('show');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
