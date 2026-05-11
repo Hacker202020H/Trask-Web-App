@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Information & Resources | Trask-Tech</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0e27;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background - Orange/Red Theme */
+        .bg-animation {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: linear-gradient(135deg, #1a0f0a 0%, #2d1810 50%, #0f0a15 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(249, 115, 22, 0.3) 0%, transparent 35%),
+                radial-gradient(circle at 70% 60%, rgba(251, 146, 60, 0.25) 0%, transparent 30%),
+                radial-gradient(circle at 50% 20%, rgba(234, 88, 12, 0.2) 0%, transparent 25%);
+            animation: bgShift 15s ease-in-out infinite;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(250,180,100,0.3)"/><circle cx="80" cy="80" r="1" fill="rgba(250,180,100,0.3)"/><circle cx="50" cy="50" r="1" fill="rgba(250,180,100,0.2)"/></svg>');
+            background-size: 200px 200px;
+            animation: bgFloat 20s linear infinite;
+        }
+
+        @keyframes bgShift {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes bgFloat {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(200px, 200px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #f97316, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.6)) drop-shadow(0 0 15px rgba(251, 146, 60, 0.4));
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.6)) drop-shadow(0 0 15px rgba(251, 146, 60, 0.4));
+            }
+            50% {
+                filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.8)) drop-shadow(0 0 20px rgba(251, 146, 60, 0.6));
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(251, 146, 60, 0.05));
+            border: 1px solid rgba(249, 115, 22, 0.2);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #f97316, #fb923c);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            display: none;
+        }
+
+        .nav-links a:hover,
+        .nav-links a:focus-visible {
+            color: #fff;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.25), rgba(251, 146, 60, 0.15));
+            border-color: rgba(249, 115, 22, 0.5);
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            transform: scaleX(1);
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #cbd5e1;
+        }
+
+        @media (max-width: 700px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: 0;
+                background: rgba(15, 23, 42, 0.99);
+                padding: 20px;
+                width: 100%;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 12px 0;
+                border-bottom: 1px solid rgba(249, 115, 22, 0.1);
+            }
+
+            .menu-icon {
+                display: block;
+            }
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #f97316, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .article-card {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(251, 146, 60, 0.05));
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(249, 115, 22, 0.6);
+            box-shadow: 0 25px 50px rgba(249, 115, 22, 0.2);
+        }
+
+        .article-header {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(251, 146, 60, 0.1));
+            padding: 20px;
+            border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+        }
+
+        .article-header .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .article-header h3 {
+            color: #f97316;
+            font-size: 1.3rem;
+        }
+
+        .article-content {
+            padding: 25px 20px;
+        }
+
+        .article-content p {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .article-content ul {
+            margin: 15px 0;
+            margin-left: 20px;
+            color: #cbd5e1;
+        }
+
+        .article-content li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(251, 146, 60, 0.08));
+            border-left: 4px solid #f97316;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-box h4 {
+            color: #f97316;
+            margin-bottom: 15px;
+        }
+
+        .info-box p {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #10b981;
+        }
+
+        footer {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            border-top: 1px solid rgba(249, 115, 22, 0.3);
+            backdrop-filter: blur(10px);
+            color: #cbd5e1;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: #f97316;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin: 8px 0;
+        }
+
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #f97316;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .footer-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(249, 115, 22, 0.2);
+            border-radius: 50%;
+            color: #f97316;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: #f97316;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-divider {
+            border-top: 1px solid rgba(249, 115, 22, 0.2);
+            padding-top: 30px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-copyright {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .footer-bottom {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        /* Enhanced Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .info-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 0;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                line-height: 1.5;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .info-card {
+                padding: 30px 20px;
+            }
+
+            .info-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .btn {
+                padding: 10px 24px;
+                font-size: 0.9rem;
+            }
+
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+                gap: 8px;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                padding: 5px 10px;
+                font-size: 0.85rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+
+            .info-card {
+                padding: 25px 15px;
+            }
+
+            .info-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .info-card p {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                padding: 8px 20px;
+                font-size: 0.85rem;
+            }
+
+            .whatsapp-float {
+                bottom: 15px;
+                right: 15px;
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+
+            .footer-content {
+                padding: 40px 0 20px;
+            }
+
+            .footer-section h4 {
+                font-size: 1rem;
+            }
+
+            .footer-social {
+                gap: 8px;
+            }
+
+            .footer-social a {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .info-card {
+                padding: 20px 12px;
+            }
+
+            .btn {
+                padding: 6px 16px;
+                font-size: 0.8rem;
+            }
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <a href="index.html" class="logo">
+                    <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Outer circle -->
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
+                        <!-- Inner tech elements -->
+                        <g stroke="url(#logoGradient)" stroke-width="1.5" fill="none" opacity="0.9">
+                            <!-- Top circuit line -->
+                            <path d="M 30 35 L 40 35 L 40 45 L 60 45 L 60 35 L 70 35"/>
+                            <!-- Middle diagonal lines -->
+                            <path d="M 25 50 L 75 50"/>
+                            <!-- Bottom circuit line -->
+                            <path d="M 30 65 L 40 65 L 40 55 L 60 55 L 60 65 L 70 65"/>
+                        </g>
+                        <!-- Connection nodes -->
+                        <g fill="url(#logoGradient)" opacity="0.8">
+                            <circle cx="30" cy="35" r="2.5"/>
+                            <circle cx="70" cy="35" r="2.5"/>
+                            <circle cx="25" cy="50" r="2.5"/>
+                            <circle cx="75" cy="50" r="2.5"/>
+                            <circle cx="30" cy="65" r="2.5"/>
+                            <circle cx="70" cy="65" r="2.5"/>
+                        </g>
+                        <!-- Center tech symbol -->
+                        <g opacity="0.6" stroke="url(#logoGradient)" stroke-width="1" fill="none">
+                            <circle cx="50" cy="50" r="8"/>
+                            <path d="M 50 42 L 50 58"/>
+                            <path d="M 42 50 L 58 50"/>
+                        </g>
+                    </svg>
+                    Trask-Tech
+                </a>
+                <div class="menu-icon" onclick="toggleMenu()">☰</div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="it-info.html">IT Info</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h1 class="section-title">IT Information & Learning Resources</h1>
+            <p style="text-align: center; color: #cbd5e1; font-size: 1.1rem; margin-bottom: 40px;">Stay updated with the latest in technology, cybersecurity, and digital transformation.</p>
+
+            <div class="articles-grid">
+                <div class="article-card">
+                    <div class="article-header">
+                        <div class="icon">🔒</div>
+                        <h3>Cybersecurity Best Practices</h3>
+                    </div>
+                    <div class="article-content">
+                        <p><strong>Protect your business from cyber threats with these essential practices:</strong></p>
+                        <ul>
+                            <li>Use strong, unique passwords and enable multi-factor authentication (MFA)</li>
+                            <li>Keep software and systems regularly updated and patched</li>
+                            <li>Implement firewalls and intrusion detection systems</li>
+                            <li>Conduct regular security audits and penetration testing</li>
+                            <li>Train employees on phishing and social engineering awareness</li>
+                            <li>Backup critical data regularly and test recovery procedures</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-header">
+                        <div class="icon">☁️</div>
+                        <h3>Cloud Computing Essentials</h3>
+                    </div>
+                    <div class="article-content">
+                        <p><strong>Understanding cloud infrastructure and benefits:</strong></p>
+                        <ul>
+                            <li><strong>IaaS:</strong> Infrastructure as a Service - virtual computing resources over the internet</li>
+                            <li><strong>PaaS:</strong> Platform as a Service - cloud platform for app development</li>
+                            <li><strong>SaaS:</strong> Software as a Service - web-based applications</li>
+                            <li>Cost efficiency and scalability advantages</li>
+                            <li>Improved collaboration and accessibility</li>
+                            <li>Reduced IT maintenance and infrastructure costs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-header">
+                        <div class="icon">🤖</div>
+                        <h3>Artificial Intelligence & ML</h3>
+                    </div>
+                    <div class="article-content">
+                        <p><strong>How AI is transforming businesses:</strong></p>
+                        <ul>
+                            <li>Automating repetitive and complex tasks</li>
+                            <li>Predictive analytics for data-driven decisions</li>
+                            <li>Natural Language Processing (NLP) for text analysis</li>
+                            <li>Computer vision for image and video recognition</li>
+                            <li>Recommendation engines for personalization</li>
+                            <li>Intelligent chatbots for customer support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-header">
+                        <div class="icon">💻</div>
+                        <h3>Modern Web Development</h3>
+                    </div>
+                    <div class="article-content">
+                        <p><strong>Key technologies for 2025:</strong></p>
+                        <ul>
+                            <li><strong>React, Vue, Angular:</strong> Popular frontend frameworks</li>
+                            <li><strong>Node.js:</strong> Server-side JavaScript development</li>
+                            <li>Progressive Web Apps (PWA) for offline functionality</li>
+                            <li>Microservices architecture for scalability</li>
+                            <li>API-first development approaches</li>
+                            <li>DevOps and continuous integration/deployment (CI/CD)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-header">
+                        <div class="icon">📊</div>
+                        <h3>Data Analytics & BI</h3>
+                    </div>
+                    <div class="article-content">
+                        <p><strong>Transform data into competitive advantage:</strong></p>
+                        <ul>
+                            <li>Business Intelligence platforms (Power BI, Tableau)</li>
+                            <li>Data visualization for better insights</li>
+                            <li>Real-time dashboards and reporting</li>
+                            <li>Big Data processing with Hadoop and Spark</li>
+                            <li>Data warehousing solutions</li>
+                            <li>Predictive modeling and forecasting</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="article-card">
+                    <div class="article-header">
+                        <div class="icon">🔧</div>
+                        <h3>DevOps & Infrastructure</h3>
+                    </div>
+                    <div class="article-content">
+                        <p><strong>Modern infrastructure management:</strong></p>
+                        <ul>
+                            <li>Containerization with Docker and Kubernetes</li>
+                            <li>Infrastructure as Code (IaC) practices</li>
+                            <li>Continuous Integration & Continuous Deployment</li>
+                            <li>Monitoring and logging solutions</li>
+                            <li>Load balancing and auto-scaling</li>
+                            <li>Disaster recovery and high availability</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>💡 Quick Tip: Digital Transformation</h4>
+                <p>Digital transformation is not just about technology. It's about reimagining your business processes, culture, and customer experiences using digital tools. Start by identifying your pain points, set clear objectives, invest in the right tools and training, and gradually scale your initiatives. Remember: successful digital transformation is a continuous journey, not a destination.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>🎯 Industry Trends 2025</h4>
+                <p><strong>Key trends shaping the tech industry:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 15px;">
+                    <li><strong>Quantum Computing:</strong> Next-generation computing power</li>
+                    <li><strong>Edge Computing:</strong> Processing data closer to the source</li>
+                    <li><strong>5G Networks:</strong> Ultra-fast connectivity and IoT expansion</li>
+                    <li><strong>Blockchain:</strong> Decentralized and secure technologies</li>
+                    <li><strong>Cybersecurity Focus:</strong> Zero-trust architecture adoption</li>
+                    <li><strong>Sustainable IT:</strong> Green technology initiatives</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>🚀 Why Invest in IT Solutions Today?</h4>
+                <p>In today's digital-first world, investing in IT solutions is not optional—it's essential for survival and growth. Businesses that leverage technology effectively gain competitive advantages, improve efficiency, reduce costs, and deliver better customer experiences. From cloud migration to AI implementation, strategic IT investments can transform your organization and position you for future success.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>🛰️ Trask-Tech</h4>
+                    <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6;">Professional IT solutions and software development for businesses worldwide. Transforming ideas into innovative digital solutions.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/" title="GitHub" target="_blank" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.262.82-.582 0-.287-.01-1.044-.015-2.05-3.338.726-4.042-1.61-4.042-1.61-.546-1.38-1.332-1.748-1.332-1.748-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.835 2.809 1.305 3.495.997.108-.775.42-1.305.762-1.605-2.665-.303-5.467-1.332-5.467-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.525.117-3.176 0 0 1.008-.323 3.3 1.23a11.52 11.52 0 0 1 3.003-.404c1.02.005 2.045.138 3.003.404 2.29-1.553 3.295-1.23 3.295-1.23.655 1.65.244 2.873.12 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.815 1.102.815 2.222 0 1.605-.015 2.896-.015 3.286 0 .322.215.698.825.58C20.565 21.795 24 17.298 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                        </a>
+                        <a href="https://t.me/" title="Telegram" target="_blank" aria-label="Telegram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12 2C6.486 2 2 6.486 2 12c0 5.513 4.486 10 10 10s10-4.487 10-10C22 6.486 17.514 2 12 2zm4.36 7.37l-1.545 7.313c-.117.5-.43.62-.872.386l-2.412-1.78-1.163 1.12c-.128.128-.235.235-.48.235l.17-2.41 4.38-3.966c.19-.17-.04-.266-.295-.096l-5.413 3.405-2.33-.73c-.505-.158-.515-.505.105-.75l8.13-3.14c.375-.14.705.09.585.65z"/></svg>
+                        </a>
+                        <a href="https://instagram.com/" title="Instagram" target="_blank" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.056 1.97.248 2.43.415a4.92 4.92 0 0 1 1.77 1.146 4.92 4.92 0 0 1 1.146 1.77c.167.46.359 1.26.415 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.056 1.17-.248 1.97-.415 2.43a4.902 4.902 0 0 1-1.146 1.77 4.904 4.904 0 0 1-1.77 1.146c-.46.167-1.26.359-2.43.415-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.056-1.97-.248-2.43-.415a4.92 4.92 0 0 1-1.77-1.146 4.922 4.922 0 0 1-1.146-1.77c-.167-.46-.359-1.26-.415-2.43C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.056-1.17.248-1.97.415-2.43a4.923 4.923 0 0 1 1.146-1.77A4.923 4.923 0 0 1 5.564 2.58c.46-.167 1.26-.359 2.43-.415C8.416 2.175 8.796 2.163 12 2.163zm0 1.838c-3.17 0-3.548.012-4.797.069-1.035.047-1.597.218-1.97.365a3.08 3.08 0 0 0-1.12.73 3.08 3.08 0 0 0-.73 1.12c-.147.373-.318.935-.365 1.97-.057 1.249-.069 1.627-.069 4.797s.012 3.548.069 4.797c.047 1.035.218 1.597.365 1.97.17.43.4.78.73 1.12.34.33.69.56 1.12.73.373.147.935.318 1.97.365 1.249.057 1.627.069 4.797.069s3.548-.012 4.797-.069c1.035-.047 1.597-.218 1.97-.365a3.08 3.08 0 0 0 1.12-.73 3.08 3.08 0 0 0 .73-1.12c.147-.373.318-.935.365-1.97.057-1.249.069-1.627.069-4.797s-.012-3.548-.069-4.797c-.047-1.035-.218-1.597-.365-1.97a3.089 3.089 0 0 0-.73-1.12 3.089 3.089 0 0 0-1.12-.73c-.373-.147-.935-.318-1.97-.365-1.249-.057-1.627-.069-4.797-.069zm0 4.838a5.0 5.0 0 1 1 0 10.001 5.0 5.0 0 0 1 0-10.001zm0 1.838a3.162 3.162 0 1 0 0 6.324 3.162 3.162 0 0 0 0-6.324zm6.406-3.162a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+                        </a>
+                        <a href="https://wa.me/256703380494" title="WhatsApp" target="_blank" aria-label="WhatsApp">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.672.15-.198.297-.768.967-.942 1.164-.173.198-.347.223-.644.075 -.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.173.198-.297.298-.496.099-.198.05-.372-.025-.52-.075-.149-.672-1.61-.921-2.207-.242-.579-.487-.5-.672-.51l-.573-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.102 3.2 5.077 4.487.709.306 1.262.489 1.693.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.412.248-.694.248-1.289.173-1.412-.074-.123-.272-.198-.57-.347z"/><path d="M12.004 2.083c-5.477 0-9.917 4.444-9.917 9.917 0 1.748.457 3.453 1.327 4.957l-1.397 5.102 5.233-1.374c1.459.798 3.115 1.219 4.754 1.219 5.478 0 9.918-4.444 9.918-9.917S17.482 2.083 12.004 2.083zm0 17.083c-1.447 0-2.87-.388-4.106-1.123l-.293-.174-3.106.814.828-3.023-.19-.304A7.758 7.758 0 0 1 4.083 12c0-4.3 3.516-7.817 7.92-7.817 4.402 0 7.919 3.517 7.919 7.817 0 4.301-3.517 7.816-7.919 7.816z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="it-info.html">IT Information</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services.html">Web Development</a></li>
+                        <li><a href="services.html">Cybersecurity</a></li>
+                        <li><a href="services.html">Cloud Solutions</a></li>
+                        <li><a href="services.html">AI & Automation</a></li>
+                        <li><a href="services.html">IT Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p style="font-size: 0.9rem; color: #cbd5e1;">📧 <a href="mailto:sdarius032@gmail.com">sdarius032@gmail.com</a></p>
+                    <p style="font-size: 0.9rem; color: #cbd5e1; margin-top: 8px;">📱 <a href="https://wa.me/256703380494">+256 703 380 494</a></p>
+                    <p style="font-size: 0.9rem; color: #cbd5e1; margin-top: 8px;">📍 Kampala, Uganda</p>
+                </div>
+            </div>
+            <div class="footer-divider">
+                <div class="footer-bottom">
+                    <p class="footer-copyright">&copy; 2025 Trask-Tech. All rights reserved.</p>
+                    <p class="footer-copyright">Building tomorrow's technology today</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/256703380494?text=Hello%20Trask-Tech%2C%20I%20want%20to%20discuss%20IT%20solutions%20for%20my%20business" class="whatsapp-float" target="_blank">💬 WhatsApp</a>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('show');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
