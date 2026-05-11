@@ -175,10 +175,12 @@
                 top: 60px;
                 left: 0;
                 right: 0;
-                flex-direction: column;
-                gap: 0;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
                 background: rgba(15, 23, 42, 0.99);
-                padding: 20px;
+                padding: 15px 10px;
                 width: 100%;
             }
 
@@ -187,8 +189,10 @@
             }
 
             .nav-links a {
-                padding: 12px 0;
-                border-bottom: 1px solid rgba(236, 72, 153, 0.1);
+                padding: 10px 14px;
+                border-bottom: none;
+                border-radius: 999px;
+                border: 1px solid rgba(236, 72, 153, 0.1);
             }
 
             .menu-icon {
